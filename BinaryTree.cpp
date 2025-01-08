@@ -18,9 +18,11 @@ using namespace std;
  Node* Insert_In_BST(Node* root , int data){
   
   // root create kr rhe h 
+  // First Node Creation
   if(root == NULL){
    root = new Node(data);
   }
+
   else{
     if(data < root->val){
         root->left = Insert_In_BST(root->left , data);
@@ -30,20 +32,24 @@ using namespace std;
     }
   }
 
-  return root;
 
+  return root;
  }
 
 
   // BST CREATION FROM A GIVEN ARRAY USING RECURSION
 
+   // Yaha root ko ByReference hi pass krna h ye galti Hogi 
  void Create_BST(Node* &root){
     cout<<" Enter a val  ";
     int data;
     cin>>data;
  
    while(data != -1){
+
     root = Insert_In_BST(root , data); 
+    // 
+
      cout<<endl<<" Enter a val  ";  
       cin>>data;
    }
@@ -75,7 +81,10 @@ using namespace std;
  }
 
 int main(){
+    // Yaha galti hogi NULL krna h root ko pahle 
    Node* root = NULL;
+
    Create_BST(root);
+
    Level_order_traversal(root);
 }

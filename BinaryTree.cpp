@@ -80,6 +80,127 @@ using namespace std;
     }
  }
 
+  // Functuion for searching in BST 
+   bool Search_IN_BST(int target , Node* root){
+    if(root == NULL ) return false;
+    if(root->val == target) return true;
+
+  return root->val > target ? Search_IN_BST(target , root->left) : Search_IN_BST(target , root->right);
+   }
+
+  // Function for FInding Max From a BSt 
+  int max_from_BST(Node* root){
+    Node* temp = root;
+    while(temp->right != NULL) temp = temp-> right ;
+
+    return temp->val;
+  }
+
+  // Function for Finding min From BST
+  int min_from_BST(Node* root){
+    Node* temp = root;
+
+    while(temp->left != NULL) temp = temp->left ;
+
+    return temp->val;
+  }
+   
+   
+   // Function for deleting a node in BSt
+       // FInd kremge or jese hi mil gaya 4 cases banenge 
+   Node* Delete_In_BST(Node* root , int target){
+    if(root == NULL) return NULL;
+
+    // Find Target then delete it
+
+    if(root->val == target){
+        // 4 cases
+        // 1st CASE
+      if(root->left == NULL && root->right == NULL){
+        delete(root);
+        return NULL;
+      }
+
+      // case 2
+      else if(root->left == NULL && root->right != NULL){
+        Node* rightSubTree = root->right ;
+        delete (root);
+        return rightSubTree;
+      }
+
+      // case 3 
+      else if(root->left != NULL && root->right == NULL){
+        Node* leftSubTree = root->left;
+        delete(root);
+        return leftSubTree;
+      }  
+
+      // Case 4
+
+      else {
+        // LeftSubtree se MAX ya RightSubTree ka MIN find kro 
+            // Replace kro root ko us sey  
+            // Delete kro jis se replace kiyo ho 
+        int maxi = max_from_BST(root->left);
+
+        root->val = maxi;
+
+        root->left = Delete_In_BST(root->left , maxi);
+
+        return root;
+      }
+
+    }
+
+    else if(root->val > target) {
+        root->left = Delete_In_BST(root->left , target);
+    }
+    else{
+        root->right = Delete_In_BST(root->right , target);
+    }
+
+    return root;
+   }
+
+
+
+   // Recursive function for adding Node in BST helper Function
+
+   void Insert_IN_BST_HELPER(Node* root , int target){
+
+    if(root->val > target){
+      if(root->left == NULL ){
+        Node* newnode = new Node(target);
+        root->left = newnode;
+        return ;
+      }
+     Insert_IN_BST_HELPER(root->left , target);
+    }
+
+     else{
+        if(root->right == NULL){
+             Node* newnode = new Node(target);
+             root->right =  newnode;
+             return ;
+        }
+        Insert_IN_BST_HELPER(root->right , target);
+      }
+
+      return ;
+    }
+   
+
+   // Function for Adding a NODE in BST 
+  void Add_IN_BST(Node* &root , int target){
+   if(root == NULL) {
+    root = new Node(target);
+    return ;
+   }
+
+   else Insert_IN_BST_HELPER(root , target);
+
+   return ;
+  }
 int main(){
     // Yaha galti hogi NULL krna h root ko pahle 
    Node* root = NULL;
@@ -87,4 +208,29 @@ int main(){
    Create_BST(root);
 
    Level_order_traversal(root);
+
+   // Sarching In BST
+   cout<<endl;
+   cout<<" Enter Val to be searched in BST ";
+   int target;
+   cin>>target;
+  if (Search_IN_BST(target ,  root) ) cout<<" target is found in BST ";
+  else cout<<" Target Not found in BST ";
+
+  // Function for Deleting a NODE from BST
+    cout<<endl<<" Enter target to delete From BSt ";
+    cin>>target;
+  Delete_In_BST(root , target);
+
+  Level_order_traversal(root);
+
+  // Function for adding a node in BST
+
+  cout <<" Enter Target to enter in BST ";
+  cin>>target;
+  Add_IN_BST(root , target);
+
+  Level_order_traversal(root);
+
+
 }

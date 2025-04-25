@@ -32,16 +32,6 @@ public:
     ListNode* next;
 };
 
-🔹 Core Functions
-
-Function Name	Description
-Insert_In_BST	Inserts a value recursively into the BST
-Create_BST	Creates BST using user input
-Level_order_traversal	Prints BST level-by-level
-Search_IN_BST	Searches for a value in BST
-Delete_In_BST	Deletes a node from BST
-Add_IN_BST	Adds a node using a helper function
-LinkList_to_BST	Converts a sorted linked list to a balanced BST
 
 🧪 Sample Execution Flow
 User is prompted to enter values to create the BST.

@@ -13,6 +13,18 @@ using namespace std;
   };
 
 
+  // LinkList class
+  class ListNode{
+    public:
+    int val;
+    ListNode* next;
+    ListNode(int data){
+      this->val = data;
+      this->next = NULL;
+    }
+  };
+
+
 // helper function or CORE LOGIC FOR BST CREATION
 
  Node* Insert_In_BST(Node* root , int data){
@@ -31,8 +43,6 @@ using namespace std;
         root->right = Insert_In_BST(root->right , data);
     }
   }
-
-
   return root;
  }
 
@@ -40,7 +50,7 @@ using namespace std;
   // BST CREATION FROM A GIVEN ARRAY USING RECURSION
 
    // Yaha root ko ByReference hi pass krna h ye galti Hogi 
- void Create_BST(Node* &root){
+ void Create_BST(Node*& root){
     cout<<" Enter a val  ";
     int data;
     cin>>data;
@@ -201,6 +211,40 @@ using namespace std;
 
    return ;
   }
+
+  // Making link list to balanced BST
+  // HEAD KO BYREF PASS KRNA H 
+       // YEHI GALTI HOGI
+      // Base case n ==0 return NULL
+    // LNR 
+       // leftcall(Head , n/2);
+       // CurrProcess 
+                   // Make root = new Node(head->val)
+
+          // Head ko aage badana h qki rightSubtree nikala h 
+        // RightCall(Head , n - n/2 -1);
+    
+  Node* LinkList_to_BST(ListNode* &head , int n){
+
+    if(n <= 0 || head== NULL ) return NULL;
+
+    Node* leftSubTree = LinkList_to_BST(head , n/2);
+
+    Node* root = new Node(head->val);
+
+     root->left = leftSubTree;
+   
+ // UPDATE HEAD qki ab RIGHT SUBTREE banaana h 
+     head = head->next;
+    Node* rightSubTree = LinkList_to_BST(head , n - n/2 -1);
+    root->right = rightSubTree;
+
+    return root;
+  }
+
+
+
+
 int main(){
     // Yaha galti hogi NULL krna h root ko pahle 
    Node* root = NULL;
@@ -231,6 +275,22 @@ int main(){
   Add_IN_BST(root , target);
 
   Level_order_traversal(root);
+
+
+
+cout<<endl<<" BST from Sorted List"<<endl;
+  // Making a Sorted LINKLIST 
+    // then Making BST from This Sorted LINKList
+  ListNode* head = new ListNode(1);
+  head->next = new ListNode(2);
+  head->next->next = new ListNode(3);
+  head->next->next->next = new ListNode(4);
+  head->next->next->next->next = new ListNode(5);
+
+  // Size of Given List is 5 
+  Node* newRoot = LinkList_to_BST(head , 5);
+  Level_order_traversal(newRoot);
+
 
 
 }
